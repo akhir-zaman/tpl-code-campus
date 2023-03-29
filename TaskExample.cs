@@ -15,6 +15,14 @@ class Program
         t1.Start();
         t2.Start();
         t3.Start();
+        
+        // Perubahan dengan metode paralel
+//         Parallel.Invoke
+//          (
+//              new Action(WriteNumbers),
+//              new Action(WriteWords),
+//              new Action(WriteColors)
+//          );
 
         Console.ReadLine();
     }
