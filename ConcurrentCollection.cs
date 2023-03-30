@@ -7,25 +7,26 @@ class ConcurrentCollection
 {
     static void Main()
     {
+        // Membuat ConcurrentQueue yang aman digunakan oleh beberapa thread
         ConcurrentQueue<int> queue = new ConcurrentQueue<int>();
 
-        //Sum of a single thread adding the numbers as we queue them.
+        // Variabel untuk menyimpan hasil penjumlahan angka dari satu thread
         int SingleThreadSum = 0;
 
-        // Populate the queue.
+        // Mengisi antrian dengan angka dari 0 sampai 4999 dan menghitung hasil penjumlahannya pada satu thread
         for (int i = 0; i < 5000; i++)
         {
             SingleThreadSum += i;
             queue.Enqueue(i);
         }
 
-        //Print the Sum of 0 to 5000.
-        Console.WriteLine("Single Thread Sum = {0}", SingleThreadSum);
+        // Menampilkan hasil penjumlahan pada satu thread
+        Console.WriteLine("Jumlah pada satu thread = {0}", SingleThreadSum);
 
-        //Sum of a multithread adding of the numbers.
+        // Variabel untuk menyimpan hasil penjumlahan angka dari beberapa thread
         int MultiThreadSum = 0;
 
-        //Create an Action delegate to dequeue items and sum them.
+        // Membuat delegasi Action untuk mengambil item dari antrian dan menjumlahkannya
         Action localAction = () =>
         {
             int localSum = 0;
@@ -37,11 +38,11 @@ class ConcurrentCollection
             Interlocked.Add(ref MultiThreadSum, localSum);
         };
 
-        // Run 3 concurrent Tasks.
+        // Menjalankan 3 tugas secara bersamaan untuk menjumlahkan angka
         Parallel.Invoke(localAction, localAction, localAction);
 
-        //Print the Sum of 0 to 5000 done by 3 separate threads.
-        Console.WriteLine("MultiThreaded Sum = {0}", MultiThreadSum);
+        // Menampilkan hasil penjumlahan dari beberapa thread
+        Console.WriteLine("Jumlah dari beberapa thread = {0}", MultiThreadSum);
         Console.ReadLine();
     }
 }
